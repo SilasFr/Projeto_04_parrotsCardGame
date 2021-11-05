@@ -18,11 +18,7 @@ body{
 
 main{
     margin-top: 20px;
-
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 15px;
+    width: 80%;
 }
 
 h1{
@@ -36,6 +32,12 @@ h1{
     margin: 40px 0;
 }
 
+.board{
+    display: flex;
+    gap: 34px;
+    flex-wrap: wrap;
+}
+
 .card{
     width: 117px;
     height: 146px;
@@ -44,8 +46,6 @@ h1{
     display: flex;
     justify-content: center;
     align-items: center;
-
-    margin: 10px;
 }
 
 .face {
@@ -61,7 +61,7 @@ h1{
     backface-visibility: hidden;
     transition: all .5s;
     transform-style: preserve-3d;
-  }
+}
 
 .front-face{
     background-image: url("img/front.png");
@@ -74,10 +74,32 @@ h1{
     transform: rotateY(180deg);
 }
 
-.card:hover .back-face {
+.back-face img{
+    width: 100%;
+}
+
+.card.selecionado .back-face {
     transform: rotateY(0deg);
 }
 
-.card:hover .front-face {
+.card.selecionado .front-face {
     transform: rotateY(-180deg);
+}
+
+@media (max-width:400px) {
+    main{
+        width: 90%;
+        margin: auto;
+    }
+
+    h1{
+        text-align: center;
+    }
+
+    .cartas{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
 }
