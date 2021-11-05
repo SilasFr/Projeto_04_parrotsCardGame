@@ -39,14 +39,45 @@ h1{
 .card{
     width: 117px;
     height: 146px;
-    background-color: #A7E9AF;
     border-radius: 3px;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    margin: 10px;
 }
 
-.card img {
-    width: 100px;
+.face {
+    width: 117px;
+    height: 146px;
+    background-color: #A7E9AF;
+    border-radius: 10px;
+    box-shadow: 1px 1px 1px rgba(0,0,0,.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    backface-visibility: hidden;
+    transition: all .5s;
+    transform-style: preserve-3d;
+  }
+
+.front-face{
+    background-image: url("img/front.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100px;
+}
+
+.back-face{
+    transform: rotateY(180deg);
+}
+
+.card:hover .back-face {
+    transform: rotateY(0deg);
+}
+
+.card:hover .front-face {
+    transform: rotateY(-180deg);
 }
