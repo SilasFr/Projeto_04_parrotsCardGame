@@ -44,27 +44,61 @@ function comparador() {
 }
 
 let primeiroClick = null
+let segundoClick = null
+let tokenVerificado = true
 function flipCard(face){
     let card = face.parentNode
 
-    if(primeiroClick===null){
-        primeiroClick = card
+    for(let i=0; i<verificados.length;i++){
+        if(verificados[i]===card){
+            tokenVerificado=false
+            primeiroClick=null
+            segundoClick=null
+            matchCard()
+        }        
     }
-    card.classList.toggle('selecionado')   
-    matchCard(card)
+    
+    if(tokenVerificado){
+        if(primeiroClick===null){
+                primeiroClick = card
+            }
+            else{
+                segundoClick = card
+            }
+            primeiroClick.classList.add('selecionado')
+            segundoClick.classList.add('selecionado')
+            matchCard(card)
+    }
+
 }
 
+let verificados = []
+
 function matchCard(card){
-    let verificados = document.querySelectorAll('.card')
+    let listaCards = document.querySelectorAll('.card')
     
-    for(let i=0; i<verificados.length;i++){
-        const teste = verificados[i].classList.contains('selecionado')
-        const elementoTeste = verificados[i]
-        console.log(teste)
-        if((teste) && (elementoTeste.innerHTML===card.innerHTML) &&(card!==elementoTeste)){            
-            console.log('deu merda')
+    for(let i=0; i<listaCards.length;i++){
+        const teste = listaCards[i].classList.contains('selecionado')
+        const elementoTeste = listaCards[i]
+        
+        if((teste)&&(elementoTeste.innerHTML===card.innerHTML)&&(card!==elementoTeste)){            
+            verificados.push(card)
+            verificados.push(elementoTeste)
+                        
+            primeiroClick = null
+            segundoClick = null
+
+        } else{
+            setTimeout(removerClasse, 1500)            
         }
     }
+}
+
+function removerClasse(){
+    primeiroClick.classList.remove('selecionado')
+    segundoClick.classList.remove('selecionado')
+    primeiroClick = null
+    segundoClick = null
 }
 
 addCards()
