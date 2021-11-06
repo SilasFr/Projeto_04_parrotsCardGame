@@ -1,5 +1,6 @@
 let qtdCartas = prompt('Digite um número par entre 4 e 14')
 let board = document.querySelector('.board')
+let count = 0
 
 let imagens =[
     'img/bobrossparrot.gif',
@@ -27,9 +28,9 @@ function addCards(){
         for(let i=0; i<qtdCartas; i++){    
             board.innerHTML += `
                 <div class="card">
-                    <div class="front-face face" onclick="flipCard(this)">
+                    <div class="front-face face" data-identifier="front-face" onclick="flipCard(this)">
                     </div>
-                    <div class="back-face face" onclick="flipCard(this)">${verso[i]}
+                    <div class="back-face face" data-identifier="back-face" onclick="flipCard(this)">${verso[i]}
                     </div>
                 </div>
             `
@@ -45,15 +46,15 @@ function comparador() {
 
 let primeiroClick = null
 let segundoClick = null
-let tokenVerificado = true
+let tokenVerificado
 function flipCard(face){
     let card = face.parentNode
-
+    tokenVerificado = true
     for(let i=0; i<verificados.length;i++){
         if(verificados[i]===card){
             tokenVerificado=false
-            primeiroClick=null
-            segundoClick=null
+            removerClasse()
+            anularCards()
             matchCard()
         }        
     }
@@ -61,35 +62,41 @@ function flipCard(face){
     if(tokenVerificado){
         if(primeiroClick===null){
                 primeiroClick = card
+                count++
             }
             else{
                 segundoClick = card
+                count++
             }
             primeiroClick.classList.add('selecionado')
             segundoClick.classList.add('selecionado')
+            
             matchCard(card)
     }
-
 }
 
 let verificados = []
-
+let listaCards
 function matchCard(card){
-    let listaCards = document.querySelectorAll('.card')
+    listaCards = document.querySelectorAll('.card')
     
     for(let i=0; i<listaCards.length;i++){
-        const teste = listaCards[i].classList.contains('selecionado')
         const elementoTeste = listaCards[i]
         
-        if((teste)&&(elementoTeste.innerHTML===card.innerHTML)&&(card!==elementoTeste)){            
+        if((listaCards[i].classList.contains('selecionado')) && 
+        (elementoTeste.innerHTML===card.innerHTML) &&
+        (card!==elementoTeste)){
             verificados.push(card)
             verificados.push(elementoTeste)
-                        
-            primeiroClick = null
-            segundoClick = null
+            console.log(card)
+            console.log(elementoTeste)
 
-        } else{
-            setTimeout(removerClasse, 1500)            
+            anularCards()
+            endGame()
+        } 
+        
+        else{
+            setTimeout(removerClasse, 1000)
         }
     }
 }
@@ -97,6 +104,20 @@ function matchCard(card){
 function removerClasse(){
     primeiroClick.classList.remove('selecionado')
     segundoClick.classList.remove('selecionado')
+    anularCards()
+}
+
+function endGame(){
+    if(verificados.length===listaCards.length){
+        setTimeout(alerta, 300)
+    }
+}
+
+function alerta(){
+    alert(`Você ganhou em ${count} jogadas!`)
+}
+
+function anularCards(){
     primeiroClick = null
     segundoClick = null
 }

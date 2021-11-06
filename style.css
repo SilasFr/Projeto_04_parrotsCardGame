@@ -86,6 +86,14 @@ h1{
     transform: rotateY(-180deg);
 }
 
+/* .card.verificado .back-face {
+    transform: rotateY(0deg);
+}
+
+.card.verificado .front-face {
+    transform: rotateY(-180deg);
+} */
+
 @media (max-width:400px) {
     main{
         width: 90%;
