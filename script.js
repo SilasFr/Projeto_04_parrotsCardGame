@@ -35,6 +35,8 @@ function addCards(){
                 </div>
             `
         }
+        
+        cronometro()
     } else{
         promptQtd()
     }
@@ -53,9 +55,8 @@ function flipCard(face){
     for(let i=0; i<verificados.length;i++){
         if(verificados[i]===card){
             tokenVerificado=false
-            removerClasse()
-            anularCards()
-            matchCard()
+            removeClass()
+            // matchCard()
         }        
     }
     
@@ -68,9 +69,9 @@ function flipCard(face){
                 segundoClick = card
                 count++
             }
+            
             primeiroClick.classList.add('selecionado')
             segundoClick.classList.add('selecionado')
-            
             matchCard(card)
     }
 }
@@ -88,20 +89,17 @@ function matchCard(card){
         (card!==elementoTeste)){
             verificados.push(card)
             verificados.push(elementoTeste)
-            console.log(card)
-            console.log(elementoTeste)
-
             anularCards()
             endGame()
         } 
         
         else{
-            setTimeout(removerClasse, 1000)
+            setTimeout(removeClass, 1000)
         }
     }
 }
 
-function removerClasse(){
+function removeClass(){
     primeiroClick.classList.remove('selecionado')
     segundoClick.classList.remove('selecionado')
     anularCards()
@@ -109,13 +107,32 @@ function removerClasse(){
 
 function endGame(){
     if(verificados.length===listaCards.length){
-        setTimeout(alerta, 300)
+        setTimeout(win, 300)
     }
 }
 
-function alerta(){
-    alert(`Você ganhou em ${count} jogadas!`)
+function win(){
+    clearInterval(relogio)
+    alert(`Você ganhou em ${count} jogadas em ${segundos} segundos`)
+    const resposta = prompt('Gostaria de jogar novamente? s/n')
+    if((resposta==='sim')||(resposta==='s')){
+        location.reload()
+    }
 }
+
+let relogio
+let segundos=0
+
+function timer(){
+    segundos++
+    let timer = document.querySelector('.timer')
+    timer.innerHTML = segundos + ' s'
+}
+
+function cronometro(){
+    relogio = setInterval(timer, 1000)
+}
+
 
 function anularCards(){
     primeiroClick = null
